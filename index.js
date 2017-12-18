@@ -32,3 +32,12 @@ module.exports = function webpackLog(options) {
 
   return log;
 };
+
+/**
+ * @note: This is an undocumented function solely for the purpose of tests.
+ *        Do not use this method in production code. Using in production code
+ *        may result in strange behavior.
+ */
+module.exports.delLogger = function delLogger(name) {
+  delete loglevel.loggers[name];
+};

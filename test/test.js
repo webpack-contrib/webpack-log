@@ -62,4 +62,14 @@ describe('webpack-log', () => {
     assert.equal(strip(first), 'ℹ ｢wds｣: webpack-dev-server');
     assert.equal(strip(last), 'ℹ ｢wdm｣: webpack-dev-middleware');
   });
+
+  it('should delete a logger (for tests environments only)', () => {
+    const log = weblog({ name: 'wds' });
+
+    weblog.delLogger('wds');
+
+    const log2 = weblog({ name: 'wds' });
+
+    assert.notDeepEqual(log, log2);
+  });
 });
