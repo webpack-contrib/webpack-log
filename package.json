@@ -30,7 +30,8 @@
   ],
   "dependencies": {
     "chalk": "^2.1.0",
-    "log-symbols": "^2.1.0"
+    "log-symbols": "^2.1.0",
+    "loglevelnext": "^1.0.0"
   },
   "devDependencies": {
     "assert": "^1.4.1",
