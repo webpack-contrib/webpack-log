@@ -50,7 +50,7 @@ for the Object.
 
 ### level
 
-Type: `String`
+Type: `String`  
 Default: `'info'`
 
 Specifies the level the logger should use. A logger will not produce output for
@@ -72,8 +72,8 @@ with the notable exception of the `silent` level._
 
 ### name
 
-_Required_
-Type: `String`
+_Required_  
+Type: `String`  
 Default: `'<unknown>'`
 
 Specifies the name of the log to create. This property is required, and used to
@@ -82,7 +82,7 @@ executing in the same process space.
 
 ### timestamp
 
-Type: `Boolean`
+Type: `Boolean`  
 Default: `false`
 
 If `true`, instructs the logger to display a timestamp for log output, preceding
