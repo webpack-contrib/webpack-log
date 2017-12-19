@@ -41,3 +41,5 @@ module.exports = function webpackLog(options) {
 module.exports.delLogger = function delLogger(name) {
   delete loglevel.loggers[name];
 };
+
+module.exports.factories = loglevel.factories;

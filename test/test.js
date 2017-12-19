@@ -32,6 +32,11 @@ describe('webpack-log', () => {
     assert.equal(typeof weblog, 'function');
   });
 
+  it('should provide access to factories', () => {
+    assert(weblog.factories);
+    assert(weblog.factories.MethodFactory);
+  });
+
   it('should return a logger', () => {
     const log = weblog({ name: 'wds' });
 
