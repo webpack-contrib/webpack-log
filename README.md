@@ -45,8 +45,10 @@ The code above will produce:
 
 ## Options
 
-The default export (`function`) accepts an `options` Object. The following is a property reference
-for the Object.
+The default export (`function`) will return a logger, given an `options` Object.
+The following is a property reference for the Object. Note that the logger
+returned is cached, and subsequent requests for a logger of the same name will
+return the same logger instance.
 
 ### level
 
