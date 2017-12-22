@@ -46,11 +46,26 @@ describe('webpack-log', () => {
 
   it('should return multiple unique loggers', () => {
     const log = weblog({ name: 'wds' });
-    const log2 = weblog({ name: 'wdm' });
+    const log2 = weblog({ name: 'wds' });
 
     assert.notDeepEqual(log, log2);
     assert.equal(log.name, 'wds');
-    assert.equal(log2.name, 'wdm');
+    assert.equal(log2.name, 'wds');
+    assert(/^wds/.test(log.id));
+    assert(/^wds/.test(log2.id));
+    assert.notEqual(log.id, log2.id);
+  });
+
+  it('should return cached loggers', () => {
+    const log = weblog({ name: 'wds', unique: false });
+    const log2 = weblog({ name: 'wds', unique: false });
+
+    assert.deepEqual(log, log2);
+    assert.equal(log.name, 'wds');
+    assert.equal(log2.name, 'wds');
+    assert.equal(log.id, 'wds');
+    assert.equal(log2.id, 'wds');
+    assert.equal(log.id, log2.id);
   });
 
   it('should log for unique loggers', () => {

@@ -46,9 +46,11 @@ The code above will produce:
 ## Options
 
 The default export (`function`) will return a logger, given an `options` Object.
-The following is a property reference for the Object. Note that the logger
-returned is cached, and subsequent requests for a logger of the same name will
-return the same logger instance.
+The following is a property reference for the Object.
+
+_Note: the logger returned is unique by default, due to the nature of the `webpack`
+ecosystem. Please reference the [`unique`](#unique) option below for disabling
+this feature and to force caching._
 
 ### level
 
@@ -89,6 +91,17 @@ Default: `false`
 
 If `true`, instructs the logger to display a timestamp for log output, preceding
 all other data.
+
+### unique
+
+Type: `Boolean`  
+Default: `true`
+
+If `false`, instructs the logger to used cached versions of a log with the same
+name. Due to the nature of the `webpack` ecosystem and multiple plugin/loader
+use in the same process space, loggers are created as unique instances by default.
+By passing `false` for this property, the module is instructed to cache the
+requested logger.
 
 ## Contributing
 

@@ -3,6 +3,7 @@
 const chalk = require('chalk');
 const loglevel = require('loglevelnext'); //eslint-disable-line
 const logSymbols = require('log-symbols');
+const uuid = require('uuid/v4');
 
 const symbols = {
   trace: chalk.grey('₸'),
@@ -18,17 +19,32 @@ const defaults = {
   prefix: {
     level: opts => symbols[opts.level],
     template: `{{level}} ${chalk.gray('｢{{name}}｣')}: `
-  }
+  },
+  unique: true
 };
 
 module.exports = function webpackLog(options) {
   const opts = Object.assign({}, defaults, options);
+
+  Object.defineProperty(opts, 'id', {
+    get() {
+      return this.name + (opts.unique ? `-${uuid()}` : '');
+    }
+  });
 
   if (opts.timestamp) {
     opts.prefix.template = `[{{time}}] ${opts.prefix.template}`;
   }
 
   const log = loglevel.getLogger(opts);
+
+  if (!Object.prototype.hasOwnProperty.call(log, 'id')) {
+    Object.defineProperty(log, 'id', {
+      get() {
+        return opts.id;
+      }
+    });
+  }
 
   return log;
 };
