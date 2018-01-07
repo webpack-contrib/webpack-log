@@ -1,56 +1,60 @@
-# Contributing to webpack-dev-server
+# Welcome!
+:heart: Thanks for your interest and time in contributing to this project.
 
-Do you use webpack-dev-server and want to help us out? Thanks!
+## What We Use
 
-Please review this document before contributing.
+- Building: [Webpack](https://webpack.js.org)
+- Linting: [ESLint](http://eslint.org/)
+- NPM: [NPM as a Build Tool](https://css-tricks.com/using-npm-build-tool/)
+- Testing: [Mocha](https://mochajs.org)
 
-Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, they should show respect in addressing your issue or assessing patches and features.
+## Forking and Cloning
 
-## Core Ideas
+You'll need to first fork this repository, and then clone it locally before you
+can submit a Pull Request with your proposed changes.
 
-- There are hooks to add your own features, so we should not add less-common features.
-- The workflow should be to start webpack-dev-server as a separate process, next to the "normal" server and to request the script from this server or to proxy from dev-server to "normal" server (because webpack blocks the event queue too much while compiling which can affect "normal" server).
-- A user should not try to implement stuff that accesses the webpack filesystem. This lead to bugs (the middleware does it while blocking requests until the compilation has finished, the blocking is important).
-- It should be a development only tool. Compiling in production is bad, one should precompile and deliver the compiled assets.
-- Processing options and stats display is delegated to webpack, so webpack-dev-server/middleware should not do much with it. This also helps us to keep up-to-date with webpack updates.
+Please see the following articles for help getting started with git:
 
-## Submitting a Pull Request
+[Forking a Repository](https://help.github.com/articles/fork-a-repo/)  
+[Cloning a Repository](https://help.github.com/articles/cloning-a-repository/)
 
-Good pull requests, such as patches, improvements, and new features, are a fantastic help. They should remain focused in scope and not contain unrelated commits.
+## Pull Requests
 
-It is adviced to first create an issue (if there is not one already) before making a pull request. This way the maintainers can first discuss with you if they agree and it also helps with providing some context.
+Please lint and test your changes before submitting a Pull Request. You can lint your
+changes by running:
 
-Run the relevant [examples](https://github.com/webpack/webpack-dev-server/tree/master/examples) to see if all functionality still works. When introducing new functionality, also add an example. This helps the maintainers to understand it and check if it still works.
+```console
+$ npm run lint
+```
 
-## Setting Up a Local Copy
+You can test your changes against the test suite for this module by running:
 
-1. Clone the repo with `git clone https://github.com/webpack/webpack-dev-server`.
+```console
+$ npm run test
+```
 
-2. Run `npm install` in the root `webpack-dev-server` folder.
+_Note: Please avoid committing `package-lock.json` files!_
 
-Once it is done, you can modify any file locally. In the `examples/` directory you'll find a lot of examples with instructions on how to run it. This can be very handy when testing if your code works.
+Please don't change variable or parameter names to match your personal
+preferences, unless the change is part of a refactor or significant modification
+of the codebase (which is very rare).
 
-If you are modifying a file in the `client/` directory, be sure to run `npm run prepublish` after it. This will recompile the files.
+Please remember to thoroughly explain your Pull Request if it doesn't have an
+associated issue. If you're changing code significantly, please remember to add
+inline or block comments in the code as appropriate.
 
-## Testing a Pull Request
+## Testing Your Pull Request
 
-Pull requests often need some real-world testing.
+You may have the need to test your changes in a real-world project or dependent
+module. Thankfully, Github provides a means to do this. Add a dependency to the
+`package.json` for such a project as follows:
 
-1. In your `package.json`, change the line with `webpack-dev-server` to:
+```json
+"webpack-logger": "webpack-contrib/webpack-log#{id}/head"
+```
 
-  ```json
-  "webpack-dev-server": "webpack/webpack-dev-server#<ID>/head"
-  ```
+Where `{id}` is the # ID of your Pull Request.
 
-  `<ID>` is the ID of the pull request.
+## Thanks
 
-2. Run `npm install`.
-
-3. Go to the `webpack-dev-server` module (`cd node_modules/webpack-dev-server`), and run `npm run prepublish`.
-
-The pull request is now ready to be tested.
-
-
-------------
-
-*Many thanks to [create-react-app](https://github.com/facebookincubator/create-react-app/blob/master/CONTRIBUTING.md) for the inspiration with this contributing guide*
+For your interest, time, understanding, and for following this simple guide.
