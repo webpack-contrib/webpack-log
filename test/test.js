@@ -92,4 +92,15 @@ describe('webpack-log', () => {
 
     assert.notDeepEqual(log, log2);
   });
+
+  it('cached loggers should share log levels', () => {
+    const log = weblog({ name: 'wds', id: 'foo' });
+
+    log.level = 'silent';
+
+    const log2 = weblog({ name: 'wds', id: 'foo' });
+
+    assert.deepEqual(log, log2);
+    assert.equal(log.level, log.level);
+  });
 });

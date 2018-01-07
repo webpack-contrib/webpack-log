@@ -25,10 +25,17 @@ const defaults = {
 
 module.exports = function webpackLog(options) {
   const opts = Object.assign({}, defaults, options);
+  const { id } = options;
+
+  delete opts.id;
 
   Object.defineProperty(opts, 'id', {
     get() {
-      return this.name + (opts.unique ? `-${uuid()}` : '');
+      if (!id) {
+        return this.name + (opts.unique ? `-${uuid()}` : '');
+      }
+
+      return id;
     }
   });
 
