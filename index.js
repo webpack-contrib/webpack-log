@@ -16,17 +16,19 @@ const symbols = {
 const defaults = {
   name: '<unknown>',
   level: 'info',
-  prefix: {
-    level: opts => symbols[opts.level],
-    template: `{{level}} ${chalk.gray('｢{{name}}｣')}: `
-  },
   unique: true
+};
+
+const prefix = {
+  level: opts => symbols[opts.level],
+  template: `{{level}} ${chalk.gray('｢{{name}}｣')}: `
 };
 
 module.exports = function webpackLog(options) {
   const opts = Object.assign({}, defaults, options);
   const { id } = options;
 
+  opts.prefix = Object.assign({}, prefix, options.prefix);
   delete opts.id;
 
   Object.defineProperty(opts, 'id', {
