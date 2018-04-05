@@ -1,6 +1,6 @@
 {
   "name": "webpack-log",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "A common logging module for the Webpack ecosystem",
   "license": "MIT",
   "repository": "webpack-contrib/webpack-log",
