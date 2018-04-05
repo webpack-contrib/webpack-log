@@ -58,8 +58,14 @@ module.exports = function webpackLog(options) {
   return log;
 };
 
+// NOTE: this is exported so that consumers of webpack-log can use the same
+//       version of chalk to decorate log messages without incurring additional
+//       dependency overhead. This is an atypical practice, but chalk version
+//       segmentation is a common issue.
+module.exports.chalk = chalk;
+
 /**
- * @note: This is an undocumented function solely for the purpose of tests.
+ * @NOTE: This is an undocumented function solely for the purpose of tests.
  *        Do not use this method in production code. Using in production code
  *        may result in strange behavior.
  */
