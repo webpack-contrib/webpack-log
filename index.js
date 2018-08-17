@@ -1,16 +1,15 @@
 'use strict';
 
-const chalk = require('chalk');
+const colors = require('ansi-colors');
 const loglevel = require('loglevelnext'); //eslint-disable-line
-const logSymbols = require('log-symbols');
 const uuid = require('uuid/v4');
 
 const symbols = {
-  trace: chalk.grey('₸'),
-  debug: chalk.cyan('➤'),
-  info: logSymbols.info,
-  warn: logSymbols.warning,
-  error: logSymbols.error
+  trace: colors.grey('₸'),
+  debug: colors.cyan('➤'),
+  info: colors.blue(colors.symbols.info),
+  warn: colors.yellow(colors.symbols.warning),
+  error: colors.red(colors.symbols.cross)
 };
 
 const defaults = {
@@ -21,7 +20,7 @@ const defaults = {
 
 const prefix = {
   level: opts => symbols[opts.level],
-  template: `{{level}} ${chalk.gray('｢{{name}}｣')}: `
+  template: `{{level}} ${colors.gray('｢{{name}}｣')}: `
 };
 
 module.exports = function webpackLog(options) {
@@ -59,10 +58,9 @@ module.exports = function webpackLog(options) {
 };
 
 // NOTE: this is exported so that consumers of webpack-log can use the same
-//       version of chalk to decorate log messages without incurring additional
-//       dependency overhead. This is an atypical practice, but chalk version
-//       segmentation is a common issue.
-module.exports.chalk = chalk;
+//       version of ansi-colors to decorate log messages without incurring additional
+//       dependency overhead
+module.exports.colors = colors;
 
 /**
  * @NOTE: This is an undocumented function solely for the purpose of tests.
