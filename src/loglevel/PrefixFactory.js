@@ -1,18 +1,22 @@
 'use strict';
 
+/* eslint-disable
+  no-param-reassign,
+  space-before-function-paren
+*/
 const MethodFactory = require('./MethodFactory');
 
 const defaults = {
   name (options) {
-    return options.logger.name
+    return options.logger.name;
   },
   time () {
-    return new Date().toTimeString().split(' ')[0]
+    return new Date().toTimeString().split(' ')[0];
   },
   level (options) {
-    return `[${options.level}]`
+    return `[${options.level}]`;
   },
-  template: '{{time}} {{level}} ',
+  template: '{{time}} {{level}} '
 };
 
 class PrefixFactory extends MethodFactory {
@@ -34,13 +38,13 @@ class PrefixFactory extends MethodFactory {
     });
   }
 
-  make(methodName) {
-    const og = super.make(methodName);
+  make(method) {
+    const og = super.make(method);
 
     return (...args) => {
       const [first] = args;
 
-      const output = this.interpolate(methodName);
+      const output = this.interpolate(method);
 
       if (typeof first === 'string') {
         args[0] = output + first;
@@ -51,6 +55,6 @@ class PrefixFactory extends MethodFactory {
       og(...args);
     };
   }
-};
+}
 
-module.exports = PrefixFactory
+module.exports = PrefixFactory;

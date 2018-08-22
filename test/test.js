@@ -1,18 +1,27 @@
 'use strict';
 
-/* eslint no-console: off, import/no-extraneous-dependencies: off */
-
+/* eslint-disable
+  no-console,
+  global-require,
+  import/order,
+  import/no-extraneous-dependencies
+*/
 const assert = require('assert');
+
 const sinon = require('sinon');
 const strip = require('strip-ansi');
+
 const weblog = require('../');
 
-/**
- * @note loglevelnext takes care of handling most output tests.
- *       we add a few here just for sanity checking
- */
+describe('loglevel', () => {
+  require('./loglevel/api.js');
+  require('./loglevel/levels.js');
+  require('./loglevel/prefix.js');
+  require('./loglevel/methods.js');
+  require('./loglevel/factory.js');
+});
 
-describe('webpack-log', () => {
+describe('log', () => {
   const sandbox = sinon.sandbox.create();
 
   before(() => {

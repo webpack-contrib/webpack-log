@@ -1,5 +1,8 @@
 'use strict';
 
+/* eslint-disable
+  import/order
+*/
 const sinon = require('sinon');
 const assert = require('assert');
 
@@ -72,7 +75,7 @@ describe('MethodFactory', () => {
       assert.equal(calls[index].args[0], method);
     }
 
-    factory.make.resetHistory();
+    factory.make.reset();
   });
 
   it('calls make() for appropriate levels', () => {

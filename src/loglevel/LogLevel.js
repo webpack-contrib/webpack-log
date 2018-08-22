@@ -1,6 +1,10 @@
 'use strict';
 
 /* global window: true */
+/* eslint-disable
+  multiline-ternary,
+  no-param-reassign
+*/
 const PrefixFactory = require('./PrefixFactory');
 const MethodFactory = require('./MethodFactory');
 
@@ -8,7 +12,7 @@ const defaults = {
   name: +new Date(),
   level: 'warn',
   prefix: null,
-  factory: null,
+  factory: null
 };
 
 class LogLevel {
@@ -47,12 +51,12 @@ class LogLevel {
     this.methodFactory.replaceMethods(this.level);
   }
 
-  disable() {
-    this.level = this.levels.SILENT;
-  }
-
   enable() {
     this.level = this.levels.TRACE;
+  }
+
+  disable() {
+    this.level = this.levels.SILENT;
   }
 
   get level() {
@@ -63,7 +67,9 @@ class LogLevel {
     const level = this.methodFactory.distillLevel(logLevel);
 
     if (level == null) {
-      throw new Error(`loglevelnext: setLevel() called with invalid level: ${logLevel}`);
+      throw new Error(
+        `loglevel: setLevel() called with invalid level: ${logLevel}`
+      );
     }
 
     this.currentLevel = level;
@@ -71,13 +77,15 @@ class LogLevel {
 
     if (typeof console === 'undefined' && level < this.levels.SILENT) {
       // eslint-disable-next-line no-console
-      console.warn('loglevelnext: console is undefined. The log will produce no output');
+      console.warn(
+        'loglevel: console is undefined. The log will produce no output'
+      );
     }
   }
 
   get levels() { // eslint-disable-line class-methods-use-this
     return this.methodFactory.levels;
   }
-};
+}
 
 module.exports = LogLevel;

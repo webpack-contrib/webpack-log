@@ -1,3 +1,11 @@
+'use strict';
+
+/* global window: true */
+/* eslint-disable
+  no-shadow,
+  no-param-reassign,
+  space-before-function-paren
+*/
 const LogLevel = require('./LogLevel');
 const MethodFactory = require('./MethodFactory');
 const PrefixFactory = require('./PrefixFactory');
@@ -53,4 +61,4 @@ const loglevel = Object.assign(defaultLogger, {
   }
 });
 
-module.exports = loglevel
+module.exports = loglevel;

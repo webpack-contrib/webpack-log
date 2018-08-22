@@ -1,5 +1,11 @@
 'use strict';
 
+/* global window: true */
+/* eslint-disable
+  no-shadow,
+  no-param-reassign,
+  space-before-function-paren
+*/
 const uuid = require('uuid/v4');
 const colors = require('ansi-colors');
 const loglevel = require('./loglevel');
@@ -20,7 +26,7 @@ const defaults = {
 
 const prefix = {
   level (options) {
-    return symbols[options.level]
+    return symbols[options.level];
   },
   template: `{{level}} ${colors.gray('｢{{name}}｣')}: `
 };
@@ -57,9 +63,9 @@ function log (options) {
   }
 
   return log;
-};
+}
 
-module.exports = log
+module.exports = log;
 // NOTE: this is exported so that consumers of webpack-log can use the same
 // version of ansi-colors to decorate log messages without incurring additional
 // dependency overhead

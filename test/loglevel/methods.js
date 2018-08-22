@@ -1,8 +1,11 @@
 'use strict';
 
+/* eslint-disable
+  import/order
+*/
 const assert = require('assert');
 
-const log = require('../../src');
+const log = require('../../src/loglevel');
 
 const LogLevel = require('../../src/loglevel/LogLevel');
 
@@ -24,4 +27,4 @@ describe('Methods', () => {
       assert.equal(typeof log[level], 'function');
     }
   });
-})
+});

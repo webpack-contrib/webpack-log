@@ -1,5 +1,12 @@
 'use strict';
 
+/* eslint-disable
+  no-shadow,
+  no-console,
+  no-param-reassign,
+  import/order,
+  space-before-function-paren
+*/
 const sinon = require('sinon');
 const assert = require('assert');
 
@@ -14,16 +21,18 @@ describe('PrefixFactory', () => {
 
   before(() => {
     sandbox.spy(console, 'info');
+
     log = new LogLevel({
       level: 'trace',
       name: 'test',
       prefix: {}
     });
+
     factory = log.factory; // eslint-disable-line
   });
 
   afterEach(() => {
-    console.info.resetHistory();
+    console.info.reset();
   });
 
   after(() => {
@@ -50,27 +59,27 @@ describe('PrefixFactory', () => {
   it('prefixes output with custom options', () => {
     const options = {
       name (options) {
-        return options.logger.name.toUpperCase()
+        return options.logger.name.toUpperCase();
       },
       time () {
-        return `[${new Date().toTimeString().split(' ')[0].split(':')[0]}]`
+        return `[${new Date().toTimeString().split(' ')[0].split(':')[0]}]`;
       },
       level (options) {
-        return `[${opts.level.substring(1)}]`
+        return `[${options.level.substring(1)}]`;
       },
       template: '{{time}} {{level}} ({{name}}) {{nope}}-'
     };
 
-    const customPrefix = new PrefixFactory(log, options);
+    const prefix = new PrefixFactory(log, options);
 
-    log.factory = customPrefix;
+    log.factory = prefix;
     log.info('foo');
 
     const [first] = console.info.firstCall.args;
-    const terped = customPrefix.interpolate('info');
-    const rOutput = /\[\d{2}\]\s\[nfo\]\s\(TEST\)\s\{\{nope\}\}-/;
+    const terped = prefix.interpolate('info');
+    const output = /\[\d{2}\]\s\[nfo\]\s\(TEST\)\s\{\{nope\}\}-/;
 
-    assert(rOutput.test(terped));
+    assert(output.test(terped));
 
     assert.equal(console.info.callCount, 1);
 
@@ -81,7 +90,7 @@ describe('PrefixFactory', () => {
 
     const [last] = console.info.lastCall.args;
 
-    assert(rOutput.test(last));
+    assert(output.test(last));
   });
 
   it('supports different prefixes per logger', () => {

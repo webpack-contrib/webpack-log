@@ -10,12 +10,11 @@
     "node": ">= 6"
   },
   "scripts": {
-    "beautify": "npm run lint -- --fix",
     "ci": "npm run cover -- --report lcovonly && npm run test",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha",
-    "lint": "eslint index.js test",
-    "mocha": "mocha --full-trace --check-leaks",
+    "lint": "eslint src test",
     "test": "npm run lint && npm run mocha",
+    "mocha": "mocha --full-trace --check-leaks",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "release": "standard-version"
   },
   "dependencies": {
@@ -24,6 +23,7 @@
   },
   "devDependencies": {
     "assert": "^1.4.1",
+    "chalk": "^2.4.1",
     "codecov.io": "^0.1.6",
     "eslint": "^4.5.0",
     "eslint-config-webpack": "^1.2.5",

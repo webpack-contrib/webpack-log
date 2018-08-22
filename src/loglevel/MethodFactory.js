@@ -1,9 +1,16 @@
 'use strict';
 
+/* eslint-disable
+  arrow-parens,
+  multiline-ternary,
+  consistent-return,
+  no-param-reassign,
+  prefer-destructuring
+*/
 const noop = () => {};
 
-const levels = Symbol('valid log levels');
-const instance = Symbol('a log instance');
+const levels = Symbol('levels');
+const instance = Symbol('instance');
 
 class MethodFactory {
   constructor(logger) {
@@ -19,40 +26,22 @@ class MethodFactory {
     this[instance] = logger;
   }
 
-  get levels() {
-    return this[levels];
+  set logger(logger) {
+    this[instance] = logger;
   }
 
   get logger() {
     return this[instance];
   }
 
-  set logger(logger) {
-    this[instance] = logger;
+  get levels() {
+    return this[levels];
   }
 
   get methods() {
     return Object.keys(this.levels)
-      .map(key => key.toLowerCase())
-      .filter(key => key !== 'silent');
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  bindMethod(obj, methodName) {
-    const method = obj[methodName];
-    if (typeof method.bind === 'function') {
-      return method.bind(obj);
-    }
-
-    try {
-      return Function.prototype.bind.call(method, obj);
-    } catch (e) {
-      // Missing bind shim or IE8 + Modernizr, fallback to wrapping
-      return function result() {
-        // eslint-disable-next-line prefer-rest-params
-        return Function.prototype.apply.apply(method, [obj, arguments]);
-      };
-    }
+      .map((key) => key.toLowerCase())
+      .filter((key) => key !== 'silent');
   }
 
   distillLevel(level) {
@@ -87,17 +76,15 @@ class MethodFactory {
    * console to become available.
    */
   // eslint-disable-next-line class-methods-use-this
-  make(methodName) {
-    if (methodName === 'debug') {
-      methodName = 'log';
+  make(method) {
+    if (method === 'debug') {
+      method = 'log';
     }
 
     /* eslint-disable no-console */
-    if (typeof console[methodName] !== 'undefined') {
-      return this.bindMethod(console, methodName);
-    }
-
-    if (typeof console.log !== 'undefined') {
+    if (typeof console[method] !== 'undefined') {
+      return this.bindMethod(console, method);
+    } else if (typeof console.log !== 'undefined') {
       return this.bindMethod(console, 'log');
     }
 
@@ -105,32 +92,49 @@ class MethodFactory {
     return noop;
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  bindMethod(obj, name) {
+    const method = obj[name];
+
+    if (typeof method.bind === 'function') {
+      return method.bind(obj);
+    }
+
+    try {
+      return Function.prototype.bind.call(method, obj);
+    } catch (err) {
+      // Missing bind shim or IE8 + Modernizr, fallback to wrapping
+      return function result() {
+        // eslint-disable-next-line prefer-rest-params
+        return Function.prototype.apply.apply(method, [obj, arguments]);
+      };
+    }
+  }
+
   replaceMethods(logLevel) {
     const level = this.distillLevel(logLevel);
 
     if (level == null) {
       throw new Error(
-        `loglevelnext: replaceMethods() called with invalid level: ${logLevel}`
+        `loglevel: replaceMethods() called with invalid level: ${logLevel}`
       );
     }
 
     if (!this.logger || this.logger.type !== 'LogLevel') {
       throw new TypeError(
-        'loglevelnext: Logger is undefined or invalid. Please specify a valid Logger instance.'
+        'loglevel: Logger is undefined or invalid. Please specify a valid Logger instance.'
       );
     }
 
-    this.methods.forEach((methodName) => {
-      const { [methodName.toUpperCase()]: methodLevel } = this.levels;
-
-      this.logger[methodName] = (methodLevel < level)
+    this.methods.forEach((method) => {
+      this.logger[method] = (this.levels[method.toUpperCase()] < level)
         ? noop
-        : this.make(methodName);
+        : this.make(method);
     });
 
     // Define log.log as an alias for log.debug
     this.logger.log = this.logger.debug;
   }
-};
+}
 
-module.exports = MethodFactory
+module.exports = MethodFactory;
