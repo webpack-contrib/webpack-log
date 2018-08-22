@@ -10,11 +10,8 @@
     "node": ">= 6"
   },
   "scripts": {
-    "ci": "npm run cover -- --report lcovonly && npm run test",
     "lint": "eslint src test",
-    "test": "npm run lint && npm run mocha",
-    "mocha": "mocha --full-trace --check-leaks",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha",
+    "test": "nyc --reporter lcovonly mocha --full-trace --check-leaks",
     "release": "standard-version"
   },
   "dependencies": {
@@ -24,12 +21,11 @@
   "devDependencies": {
     "assert": "^1.4.1",
     "chalk": "^2.4.1",
-    "codecov.io": "^0.1.6",
     "eslint": "^4.5.0",
     "eslint-config-webpack": "^1.2.5",
     "eslint-plugin-import": "^2.7.0",
-    "istanbul": "^0.4.5",
     "mocha": "^4.0.0",
+    "nyc": "^12.0.2",
     "sinon": "^4.0.1",
     "standard-version": "^4.4.0",
     "strip-ansi": "^4.0.0"
