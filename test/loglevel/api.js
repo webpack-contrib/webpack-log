@@ -1,14 +1,17 @@
 'use strict';
 
+/* eslint-disable
+  import/order
+*/
 const assert = require('assert');
 
-const log = require('../../src');
+const log = require('../../src/loglevel');
 
 const LogLevel = require('../../src/loglevel/LogLevel');
 const MethodFactory = require('../../src/loglevel/MethodFactory');
 const PrefixFactory = require('../../src/loglevel/PrefixFactory');
 
-describe('Default Logger API', () => {
+describe('API', () => {
   it('has extended methods', () => {
     assert.equal(typeof log.loggers, 'object');
     assert.equal(typeof log.getLogger, 'function');
