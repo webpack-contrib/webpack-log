@@ -1,21 +1,13 @@
 {
   "name": "webpack-log",
   "version": "1.2.0",
-  "description": "A common logging module for the Webpack ecosystem",
-  "license": "MIT",
-  "repository": "webpack-contrib/webpack-log",
-  "author": "Andrew Powell <andrew@shellscape.org>",
-  "homepage": "http://github.com/webpack-contrib/webpack-log",
-  "maintainers": [
-    {
-      "name": "Andrew Powell",
-      "email": "andrew@shellscape.org",
-      "url": "shellscape.org"
-    }
-  ],
+  "description": "A common logger for the webpack ecosystem",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "engines": {
-    "node": ">=6"
+    "node": ">= 6"
   },
   "scripts": {
     "beautify": "npm run lint -- --fix",
@@ -23,11 +15,9 @@
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
     "lint": "eslint index.js test",
     "mocha": "mocha --full-trace --check-leaks",
-    "test": "npm run lint && npm run mocha"
+    "test": "npm run lint && npm run mocha",
+    "release": "standard-version"
   },
-  "files": [
-    "index.js"
-  ],
   "dependencies": {
     "ansi-colors": "^3.0.0",
     "loglevelnext": "^1.0.1",
@@ -42,6 +32,12 @@
     "istanbul": "^0.4.5",
     "mocha": "^4.0.0",
     "sinon": "^4.0.1",
+    "standard-version": "^4.4.0",
     "strip-ansi": "^4.0.0"
-  }
+  },
+  "author": "Andrew Powell <andrew@shellscape.org>",
+  "issues": "https://github.com/webpack-contrib/webpack-log/issues",
+  "homepage": "https://github.com/webpack-contrib/webpack-log#readme",
+  "repository": "https://github.com/webpack-contrib/webpack-log.git",
+  "license": "MIT"
 }
