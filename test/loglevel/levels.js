@@ -80,6 +80,11 @@ describe('Levels', () => {
           method = 'log';
         }
 
+        // eslint-disable-next-line
+        console.log('Method', method)
+        // eslint-disable-next-line
+        console.log(console[method].callCount)
+
         assert.equal(console[method].callCount, expected);
       }
     });
