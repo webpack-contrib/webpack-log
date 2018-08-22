@@ -1,8 +1,8 @@
 'use strict';
 
-const colors = require('ansi-colors');
-const loglevel = require('loglevelnext'); //eslint-disable-line
 const uuid = require('uuid/v4');
+const colors = require('ansi-colors');
+const loglevel = require('./loglevel');
 
 const symbols = {
   trace: colors.grey('₸'),
@@ -19,11 +19,13 @@ const defaults = {
 };
 
 const prefix = {
-  level: opts => symbols[opts.level],
+  level (options) {
+    return symbols[options.level]
+  },
   template: `{{level}} ${colors.gray('｢{{name}}｣')}: `
 };
 
-module.exports = function webpackLog(options) {
+function log (options) {
   const opts = Object.assign({}, defaults, options);
   const { id } = options;
 
@@ -57,16 +59,14 @@ module.exports = function webpackLog(options) {
   return log;
 };
 
+module.exports = log
 // NOTE: this is exported so that consumers of webpack-log can use the same
-//       version of ansi-colors to decorate log messages without incurring additional
-//       dependency overhead
+// version of ansi-colors to decorate log messages without incurring additional
+// dependency overhead
 module.exports.colors = colors;
-
-/**
- * @NOTE: This is an undocumented function solely for the purpose of tests.
- *        Do not use this method in production code. Using in production code
- *        may result in strange behavior.
- */
+// NOTE: This is an undocumented function solely for the purpose of tests.
+// Do not use this method in production code. Using in production code
+// may result in strange behavior.
 module.exports.delLogger = function delLogger(name) {
   delete loglevel.loggers[name];
 };
