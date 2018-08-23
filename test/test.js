@@ -11,7 +11,7 @@ const assert = require('assert');
 const sinon = require('sinon');
 const strip = require('strip-ansi');
 
-const weblog = require('../');
+const weblog = require('../src');
 
 describe('loglevel', () => {
   require('./loglevel/api.js');
@@ -22,14 +22,14 @@ describe('loglevel', () => {
 });
 
 describe('log', () => {
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   before(() => {
     sandbox.spy(console, 'info');
   });
 
   afterEach(() => {
-    console.info.reset();
+    console.info.resetHistory();
   });
 
   after(() => {
@@ -58,10 +58,13 @@ describe('log', () => {
     const log2 = weblog({ name: 'wds' });
 
     assert.notDeepEqual(log, log2);
+
     assert.equal(log.name, 'wds');
     assert.equal(log2.name, 'wds');
+
     assert(/^wds/.test(log.id));
     assert(/^wds/.test(log2.id));
+
     assert.notEqual(log.id, log2.id);
   });
 
@@ -70,6 +73,7 @@ describe('log', () => {
     const log2 = weblog({ name: 'wds', unique: false });
 
     assert.deepEqual(log, log2);
+
     assert.equal(log.name, 'wds');
     assert.equal(log2.name, 'wds');
     assert.equal(log.id, 'wds');
