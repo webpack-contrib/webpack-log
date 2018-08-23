@@ -28,7 +28,7 @@ const methods = [
 
 describe('MethodFactory', () => {
   const factory = new MethodFactory();
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   let log;
 
@@ -75,7 +75,7 @@ describe('MethodFactory', () => {
       assert.equal(calls[index].args[0], method);
     }
 
-    factory.make.reset();
+    factory.make.resetHistory();
   });
 
   it('calls make() for appropriate levels', () => {

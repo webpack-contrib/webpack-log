@@ -14,7 +14,7 @@ const LogLevel = require('../../src/loglevel/LogLevel');
 const PrefixFactory = require('../../src/loglevel/PrefixFactory');
 
 describe('PrefixFactory', () => {
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   let log;
   let factory;
@@ -32,7 +32,7 @@ describe('PrefixFactory', () => {
   });
 
   afterEach(() => {
-    console.info.reset();
+    console.info.resetHistory();
   });
 
   after(() => {

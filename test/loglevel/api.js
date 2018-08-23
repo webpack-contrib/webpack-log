@@ -27,6 +27,7 @@ describe('API', () => {
 
   it('returns loggers cache', () => {
     assert(log.loggers);
+
     assert.deepEqual(log.loggers.default, log);
   });
 

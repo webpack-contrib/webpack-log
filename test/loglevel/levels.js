@@ -4,7 +4,7 @@
   no-console,
   import/order,
 */
-const chalk = require('chalk');
+const colors = require('ansi-colors');
 
 const sinon = require('sinon');
 const assert = require('assert');
@@ -12,7 +12,7 @@ const assert = require('assert');
 const log = require('../../src/loglevel');
 
 describe('Levels', () => {
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   const spyMethods = Object.keys(log.levels)
     .map(key => key.toLowerCase())
@@ -33,11 +33,11 @@ describe('Levels', () => {
   afterEach(() => {
     for (const method of spyMethods) {
       if (console[method]) {
-        console[method].reset();
+        console[method].resetHistory();
       }
     }
 
-    console.log.reset();
+    console.log.resetHistory();
   });
 
   after(() => {
@@ -66,7 +66,7 @@ describe('Levels', () => {
       for (let method of spyMethods) {
         let expected = 1;
 
-        log[method](chalk.black(`test ${method}`));
+        log[method](colors.black(`test ${method}`));
 
         if (level > log.levels[method.toUpperCase()]) {
           expected = 0;
@@ -79,11 +79,6 @@ describe('Levels', () => {
         if (method === 'debug') {
           method = 'log';
         }
-
-        // eslint-disable-next-line
-        console.log('Method', method)
-        // eslint-disable-next-line
-        console.log(console[method].callCount)
 
         assert.equal(console[method].callCount, expected);
       }
