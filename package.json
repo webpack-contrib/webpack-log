@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "ansi-colors": "^3.0.0",
+    "loglevelnext": "^1.0.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
