@@ -13,14 +13,6 @@ const strip = require('strip-ansi');
 
 const weblog = require('../src');
 
-describe('loglevel', () => {
-  require('./loglevel/api.js');
-  require('./loglevel/levels.js');
-  require('./loglevel/prefix.js');
-  require('./loglevel/methods.js');
-  require('./loglevel/factory.js');
-});
-
 describe('log', () => {
   const sandbox = sinon.createSandbox();
 
