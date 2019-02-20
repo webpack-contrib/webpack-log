@@ -42,7 +42,7 @@ logger.info('Server Starting')
 |:--:|:--:|:-----:|:----------|
 |[**`name`**](#name)|`{String}`|`''<unknown>'`|Log Name (**Required**)|
 |[**`level`**](#level)|`{String}`|`'info'`|Log Level|
-|[**`unique`**](#unique)|`{String}`|`true`|Log Uniqueness|
+|[**`unique`**](#unique)|`{Boolean}`|`true`|Log Uniqueness|
 |[**`timestamp`**](#timestamp)|`{Boolean}`|`false`|Log Timestamps|
 
 ### `name`  
