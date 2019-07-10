@@ -15,31 +15,35 @@ const symbols = {
   debug: colors.cyan('➤'),
   info: colors.blue(colors.symbols.info),
   warn: colors.yellow(colors.symbols.warning),
-  error: colors.red(colors.symbols.cross)
+  error: colors.red(colors.symbols.cross),
 };
 
 const defaults = {
   name: '<unknown>',
   level: 'info',
   unique: true,
-  color: true
+  color: true,
 };
 
 const prefix = {
-  level (options) {
+  level(options) {
     return symbols[options.level];
   },
-  template: `{{level}} ${colors.gray('｢{{name}}｣')}: `
+  template: `{{level}} ${colors.gray('｢{{name}}｣')}: `,
 };
 
 const noColorPrefix = {
-  template: '｢{{name}}｣: '
+  template: '｢{{name}}｣: ',
 };
 
-function log (options) {
+function log(options) {
   const opts = Object.assign({}, defaults, options);
   const { id } = options;
-  opts.prefix = Object.assign({}, opts.color ? prefix : noColorPrefix, options.prefix);
+  opts.prefix = Object.assign(
+    {},
+    opts.color ? prefix : noColorPrefix,
+    options.prefix
+  );
   delete opts.id;
 
   Object.defineProperty(opts, 'id', {
@@ -49,7 +53,7 @@ function log (options) {
       }
 
       return id;
-    }
+    },
   });
 
   if (opts.timestamp) {
@@ -62,7 +66,7 @@ function log (options) {
     Object.defineProperty(log, 'id', {
       get() {
         return opts.id;
-      }
+      },
     });
   }
 
