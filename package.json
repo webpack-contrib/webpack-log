@@ -10,7 +10,9 @@
     "node": ">= 6"
   },
   "scripts": {
-    "lint": "eslint src test",
+    "lint": "npm run lint:js && npm run lint:prettier",
+    "lint:js": "eslint src test",
+    "lint:prettier": "prettier \"{**/*,*}.{js,,md}\" --list-different",
     "test": "nyc --reporter lcovonly mocha --full-trace --check-leaks",
     "release": "standard-version"
   },
@@ -20,12 +22,18 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^8.0.0",
     "assert": "^1.4.1",
+    "commitlint": "^8.0.0",
     "eslint": "^5.4.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-config-webpack": "^1.2.5",
     "eslint-plugin-import": "^2.14.0",
+    "husky": "^3.0.0",
+    "lint-staged": "^9.2.0",
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
+    "prettier": "^1.18.2",
     "sinon": "^6.1.5",
     "standard-version": "^4.4.0",
     "strip-ansi": "^4.0.0"
