@@ -108,4 +108,14 @@ describe('log', () => {
     assert.deepEqual(log, log2);
     assert.equal(log.level, log.level);
   });
+
+  it('should return no color string', () => {
+    const log = weblog({ name: 'wds', color: false });
+
+    log.info('webpack-dev-server');
+
+    const [first] = console.info.firstCall.args;
+
+    assert.equal(first, '｢wds｣: webpack-dev-server');
+  });
 });

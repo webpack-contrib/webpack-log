@@ -21,7 +21,8 @@ const symbols = {
 const defaults = {
   name: '<unknown>',
   level: 'info',
-  unique: true
+  unique: true,
+  color: true
 };
 
 const prefix = {
@@ -31,11 +32,14 @@ const prefix = {
   template: `{{level}} ${colors.gray('｢{{name}}｣')}: `
 };
 
+const noColorPrefix = {
+  template: '｢{{name}}｣: '
+};
+
 function log (options) {
   const opts = Object.assign({}, defaults, options);
   const { id } = options;
-
-  opts.prefix = Object.assign({}, prefix, options.prefix);
+  opts.prefix = Object.assign({}, opts.color ? prefix : noColorPrefix, options.prefix);
   delete opts.id;
 
   Object.defineProperty(opts, 'id', {
