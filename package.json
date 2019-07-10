@@ -15,7 +15,7 @@
     "release": "standard-version"
   },
   "dependencies": {
-    "ansi-colors": "^3.0.0",
+    "ansi-colors": "^4.1.1",
     "loglevelnext": "^1.0.1",
     "uuid": "^3.3.2"
   },
