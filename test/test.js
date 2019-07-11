@@ -6,71 +6,62 @@
   import/order,
   import/no-extraneous-dependencies
 */
-const assert = require('assert');
-
-const sinon = require('sinon');
 const strip = require('strip-ansi');
-
 const weblog = require('../src');
 
 describe('log', () => {
-  const sandbox = sinon.createSandbox();
+  let consoleMock;
 
-  before(() => {
-    sandbox.spy(console, 'info');
+  beforeEach(() => {
+    consoleMock = jest.spyOn(console, 'info');
   });
 
   afterEach(() => {
-    console.info.resetHistory();
-  });
-
-  after(() => {
-    sandbox.restore();
+    consoleMock.mockRestore();
   });
 
   it('should exist', () => {
-    assert(weblog);
-    assert.equal(typeof weblog, 'function');
+    expect(typeof weblog).toEqual('function');
   });
 
   it('should provide access to factories', () => {
-    assert(weblog.factories);
-    assert(weblog.factories.MethodFactory);
+    expect(typeof weblog.factories.MethodFactory).toEqual('function');
+    expect(typeof weblog.factories.PrefixFactory).toEqual('function');
   });
 
   it('should return a logger', () => {
     const log = weblog({ name: 'wds' });
 
-    assert(log);
-    assert.equal(log.name, 'wds');
+    expect(log.name).toEqual('wds');
   });
 
   it('should return multiple unique loggers', () => {
     const log = weblog({ name: 'wds' });
     const log2 = weblog({ name: 'wds' });
 
-    assert.notDeepEqual(log, log2);
+    expect(log).not.toEqual(log2);
+    expect(log.id).not.toEqual(log2.id);
 
-    assert.equal(log.name, 'wds');
-    assert.equal(log2.name, 'wds');
+    expect(log.name).toEqual('wds');
+    expect(log2.name).toEqual('wds');
 
-    assert(/^wds/.test(log.id));
-    assert(/^wds/.test(log2.id));
-
-    assert.notEqual(log.id, log2.id);
+    expect(/^wds/.test(log.id)).toBeTruthy();
+    expect(/^wds/.test(log2.id)).toBeTruthy();
   });
 
   it('should return cached loggers', () => {
     const log = weblog({ name: 'wds', unique: false });
     const log2 = weblog({ name: 'wds', unique: false });
 
-    assert.deepEqual(log, log2);
+    expect(log).toEqual(log2);
 
-    assert.equal(log.name, 'wds');
-    assert.equal(log2.name, 'wds');
-    assert.equal(log.id, 'wds');
-    assert.equal(log2.id, 'wds');
-    assert.equal(log.id, log2.id);
+    expect(log.id).toEqual('wds');
+    expect(log2.id).toEqual('wds');
+    expect(log.id).toEqual(log2.id);
+
+    expect(log.name).toEqual('wds');
+    expect(log2.name).toEqual('wds');
+    expect(log.name).toEqual(log2.name);
   });
 
   it('should log for unique loggers', () => {
@@ -80,12 +71,10 @@ describe('log', () => {
     log.info('webpack-dev-server');
     log2.info('webpack-dev-middleware');
 
-    const [first] = console.info.firstCall.args;
-    const [last] = console.info.lastCall.args;
+    const [first, last] = consoleMock.mock.calls;
 
-    assert.equal(console.info.callCount, 2);
-    assert.equal(strip(first), 'ℹ ｢wds｣: webpack-dev-server');
-    assert.equal(strip(last), 'ℹ ｢wdm｣: webpack-dev-middleware');
+    expect(strip(first[0])).toMatchSnapshot();
+    expect(strip(last[0])).toMatchSnapshot();
   });
 
   it('should delete a logger (for tests environments only)', () => {
@@ -95,7 +84,7 @@ describe('log', () => {
 
     const log2 = weblog({ name: 'wds' });
 
-    assert.notDeepEqual(log, log2);
+    expect(log).not.toEqual(log2);
   });
 
   it('cached loggers should share log levels', () => {
@@ -105,8 +94,8 @@ describe('log', () => {
 
     const log2 = weblog({ name: 'wds', id: 'foo' });
 
-    assert.deepEqual(log, log2);
-    assert.equal(log.level, log.level);
+    expect(log).toEqual(log2);
+    expect(log.level).toEqual(log2.level);
   });
 
   it('should return no color string', () => {
@@ -114,8 +103,8 @@ describe('log', () => {
 
     log.info('webpack-dev-server');
 
-    const [first] = console.info.firstCall.args;
+    const [first] = consoleMock.mock.calls;
 
-    assert.equal(first, '｢wds｣: webpack-dev-server');
+    expect(first[0]).toMatchSnapshot();
   });
 });
