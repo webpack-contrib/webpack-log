@@ -10,14 +10,26 @@ const strip = require('strip-ansi');
 const weblog = require('../src');
 
 describe('log', () => {
-  let consoleMock;
+  let consoleInfoMock;
+  let consoleWarnMock;
+  let consoleDebugMock;
+  let consoleTraceMock;
+  let consoleErrorMock;
 
   beforeEach(() => {
-    consoleMock = jest.spyOn(console, 'info');
+    consoleInfoMock = jest.spyOn(console, 'info');
+    consoleWarnMock = jest.spyOn(console, 'warn');
+    consoleDebugMock = jest.spyOn(console, 'debug');
+    consoleTraceMock = jest.spyOn(console, 'trace');
+    consoleErrorMock = jest.spyOn(console, 'error');
   });
 
   afterEach(() => {
-    consoleMock.mockRestore();
+    consoleInfoMock.mockRestore();
+    consoleWarnMock.mockRestore();
+    consoleDebugMock.mockRestore();
+    consoleTraceMock.mockRestore();
+    consoleErrorMock.mockRestore();
   });
 
   it('should exist', () => {
@@ -71,7 +83,7 @@ describe('log', () => {
     log.info('webpack-dev-server');
     log2.info('webpack-dev-middleware');
 
-    const [first, last] = consoleMock.mock.calls;
+    const [first, last] = consoleInfoMock.mock.calls;
 
     expect(strip(first[0])).toMatchSnapshot();
     expect(strip(last[0])).toMatchSnapshot();
@@ -103,8 +115,58 @@ describe('log', () => {
 
     log.info('webpack-dev-server');
 
-    const [first] = consoleMock.mock.calls;
+    const [first] = consoleInfoMock.mock.calls;
 
     expect(first[0]).toMatchSnapshot();
+  });
+
+  it('should return logs with prefix', () => {
+    const log = weblog({ name: 'wds', id: 'foo' });
+
+    {
+      log.level = 'trace';
+      log.trace('webpack-dev-server');
+
+      const [first] = consoleTraceMock.mock.calls;
+
+      expect(strip(first[0])).toMatchSnapshot();
+    }
+
+    {
+      log.level = 'info';
+      log.info('webpack-dev-server');
+
+      const [first] = consoleInfoMock.mock.calls;
+
+      expect(strip(first[0])).toMatchSnapshot();
+    }
+
+    {
+      log.level = 'warn';
+      log.warn('webpack-dev-server');
+
+      const [first] = consoleWarnMock.mock.calls;
+
+      expect(strip(first[0])).toMatchSnapshot();
+    }
+
+    {
+      log.level = 'error';
+      log.error('webpack-dev-server');
+
+      const [first] = consoleErrorMock.mock.calls;
+
+      expect(strip(first[0].split('\n')[0])).toMatchSnapshot();
+    }
+  });
+
+  it('should attach timestamp', () => {
+    const log = weblog({ name: 'wds', timestamp: true });
+
+    log.info('webpack-dev-server');
+
+    const [first] = consoleInfoMock.mock.calls;
+
+    expect(!!first[0].match(/[\d\d:\d\d:\d\d]/)).toBeTruthy();
   });
 });

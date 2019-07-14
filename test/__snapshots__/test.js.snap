@@ -4,4 +4,12 @@ exports[`log should log for unique loggers 1`] = `"ℹ ｢wds｣: webpack-dev-se
 
 exports[`log should log for unique loggers 2`] = `"ℹ ｢wdm｣: webpack-dev-middleware"`;
 
+exports[`log should return logs with prefix 1`] = `"₸ ｢wds｣: webpack-dev-server"`;
+
+exports[`log should return logs with prefix 2`] = `"ℹ ｢wds｣: webpack-dev-server"`;
+
+exports[`log should return logs with prefix 3`] = `"⚠ ｢wds｣: webpack-dev-server"`;
+
+exports[`log should return logs with prefix 4`] = `"Trace: ₸ ｢wds｣: webpack-dev-server"`;
+
 exports[`log should return no color string 1`] = `"｢wds｣: webpack-dev-server"`;
