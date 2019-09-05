@@ -1,3 +1,5 @@
+[DEPRECATED] Plese use logger api https://github.com/webpack/webpack/pull/9436
+
 [![npm][npm]][npm-url]
 [![node][node]][node-url]
 [![deps][deps]][deps-url]
